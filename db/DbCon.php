@@ -14,7 +14,7 @@
 class DbCon {
 
     private $host = "localhost";
-    private $db_name = "php_rest_api";
+    private $dbName = "php_rest_api";
     private $username = "root";
     private $password = "";
     public $connection;
@@ -23,7 +23,7 @@ class DbCon {
     public function getConnection() {
         $this->connection = null;
         try {
-            $this->connection = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->connection = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->$dbName, $this->username, $this->password);
             $this->connection->exec("set names utf8");
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $exception) {

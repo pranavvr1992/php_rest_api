@@ -1,4 +1,5 @@
 # PHP REST WEBSERVICE
 
-* php
+* php (7.2)
+* PDO (mysql)
 * jwt
