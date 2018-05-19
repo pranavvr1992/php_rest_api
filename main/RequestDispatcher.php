@@ -62,43 +62,52 @@ class RequestDispatcher {
         }
         $this->param = $data['params'];
     }
+
 //Validate parameter and its type
-    public function validateParameter($fieldName, $value, $dataType, $required = true) {
-        if ($required == true && empty($value) == true) {
-            $this->throwError(VALIDATE_PARAMETER_REQUIRED, $fieldName . " Parameter is required");
+    public function validateParameter($paramKey, $paramValue, $paramType, $required = true) {
+        if ($required == true && empty($paramValue) == true) {
+            $this->throwError(PARAMETER_REQUIRED, $paramKey . " Parameter is required & value doest not be null");
         }
-        switch ($dataType) {
+        switch ($paramType) {
             case BOOLEAN:
 
-                if (!is_bool($value)) {
-                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Must be boolean");
+                if (!is_bool($paramValue)) {
+                    $this->throwError(INVALID_PARAMETER_DATATYPE, $paramKey . " Must be boolean");
                 }
                 break;
             case INTEGER:
 
-                if (!is_numeric($value)) {
-                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Must be integer");
+                if (!is_numeric($paramValue)) {
+                    $this->throwError(INVALID_PARAMETER_DATATYPE, $paramKey . " Must be integer");
                 }
                 break;
             case STRING:
 
-                if (!is_string($value)) {
-                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Must be string");
+                if (!is_string($paramValue)) {
+                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $paramKey . " Must be string");
                 }
                 break;
 
             default:
-                $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Datatype is not valid");
+                $this->throwError(VALIDATE_PARAMETER_DATATYPE, $paramKey . " Datatype is not valid");
                 break;
         }
-        return $value;
+        return $paramValue;
     }
 
-//Throw Error Custom Method Custom
+//Throw Error ,Custom Method,Error Resp payload 
     public function throwError($httpStatusCode, $message) {
         header("content-type:application/json");
-        $errorMsg = json_encode(array('error' => array('code' => $httpStatusCode, 'message' => $message)));
-        echo $errorMsg;
+        $errorResp = json_encode(array('error' => array('code' => $httpStatusCode, 'message' => $message)));
+        echo $errorResp;
+        exit;
+    }
+
+// Success Resp Payload
+    public function returnResponse($httpStatusCode, $message) {
+        header("content-type:application/json");
+        $successResp = json_encode(array('success' => array('code' => $httpStatusCode, 'message' => $message)));
+        echo successResp;
         exit;
     }
 
