@@ -14,14 +14,14 @@
 class RequestDispatcher {
 
     protected $request;
-    protected $serviceName;
+    protected $endPoint;
     protected $param;
     public $dbCon;
 
     public function __construct() {
 //        Check HTTP Method
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->throwError(REQUEST_METHOD_NOT_VALID, "Request method not valid");
+            $this->throwError(REQUEST_METHOD_NOT_ALLOWED, "Request method not allowed");
         }
 //        Read RAW Data
         $fileHandler = fopen('php://input', 'r');
@@ -30,38 +30,42 @@ class RequestDispatcher {
         $dbCon = new DbCon();
         $this->dbCon = $dbCon->getConnection();
     }
-
+//Process Request to endpoint after validating request
     public function processRequest() {
         $reqController = new RequestController();
-        $reflectionMethod = new ReflectionMethod('API', $this->serviceName);
-        if (!method_exists($api, $this->serviceName)) {
-            $this->throwError(API_DOST_NOT_EXIST, "Endpoint doesnot exists");
+        try {
+            $reflectionMethod = new ReflectionMethod('RequestController', $this->endPoint);
+            if (!method_exists($reqController, $this->endPoint)) {
+                $this->throwError(ENDPOINT_NOT_EXIST, "Endpoint doesnot exists");
+            }
+        } catch (Exception $exc) {
+            $this->throwError(ENDPOINT_NOT_EXIST, "Endpoint doesnot exists");
         }
-        $reflectionMethod->invoke($api);
+        $reflectionMethod->invoke($reqController);
     }
 
+//Validate Content-Type,Endpoint,Parameters
     public function validateRequest() {
-
         if ($_SERVER["CONTENT_TYPE"] !== 'application/json') {
-            $this->throwError(REQUEST_CONTENT_TYPE_NOT_VALID, "Request content type not valid");
+            $this->throwError(UNSUPPOERTED_CONTENT_TYPE, "Unsuppoerted content type");
         }
         $data = json_decode($this->request, true);
-//        checks name 
-        if (!isset($data['name']) || $data['name'] == "") {
-            $this->throwError(API_NAME_REQUIRED, "Api name required");
+//        checks endpoint 
+        if (!isset($data['endpoint']) || $data['endpoint'] == "") {
+            $this->throwError(API_ENDPOINT_REQUIRED, "Api endpoint required");
         }
-        $this->serviceName = $data['name'];
+        $this->endPoint = $data['endpoint'];
 //checks params
-        if (!isset($data['param']) || !is_array($data['param'])) {
-            $this->throwError(API_PARAM_REQUIRED, "Api param required");
+        if (!isset($data['params']) || !is_array($data['params'])) {
+            $this->throwError(ENDPOINT_PARAM_REQUIRED, "Endpoint param required");
         }
-        $this->param = $data['param'];
+        $this->param = $data['params'];
     }
 
 //Throw Error Custom Method Custom
     public function throwError($httpStatusCode, $message) {
         header("content-type:application/json");
-        $errorMsg = json_encode(array('error' => array('status' => $httpStatusCode, 'message' => $message)));
+        $errorMsg = json_encode(array('error' => array('code' => $httpStatusCode, 'message' => $message)));
         echo $errorMsg;
         exit;
     }

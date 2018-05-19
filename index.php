@@ -1,8 +1,9 @@
 
 <?php
 
-require_once ('./utils/Constants.php');
+require('./utils/Constants.php');
+require('./db/DbCon.php');
 require './main/RequestDispatcher.php';
-require_once ('./main/RequestController.php');
+require('./main/RequestController.php');
 $reqController = new RequestController();
 $reqController->processRequest();

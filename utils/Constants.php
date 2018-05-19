@@ -7,14 +7,16 @@ define('INTEGER', '2');
 define('STRING', '3');
 
 /* Http Status Codes: Error */
-define('REQUEST_METHOD_NOT_VALID', 100);
-define('REQUEST_CONTENT_TYPE_NOT_VALID', 101);
+define('REQUEST_METHOD_NOT_ALLOWED', 405);
+define('UNSUPPOERTED_CONTENT_TYPE', 415);
 define('REQUEST_NOT_VALID', 102);
+define('API_ENDPOINT_REQUIRED', 105);
+define('ENDPOINT_PARAM_REQUIRED', 106);
 define('VALIDATE_PARAMETER_REQUIRED', 103);
 define('VALIDATE_PARAMETER_DATATYPE', 104);
-define('API_NAME_REQUIRED', 105);
-define('API_PARAM_REQUIRED', 106);
-define('API_DOST_NOT_EXIST', 107);
+
+
+define('ENDPOINT_NOT_EXIST', 107);
 define('INVALID_USER_PASS', 108);
 
 //Http Status Codes:Success

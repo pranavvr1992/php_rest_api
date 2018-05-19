@@ -11,11 +11,14 @@
  *
  * @author pvr-admin
  */
-
 class RequestController extends RequestDispatcher {
 
     public function __construct() {
         parent::__construct();
+    }
+
+    public function generateToken() {
+        echo 'generate token';
     }
 
 }

@@ -23,7 +23,7 @@ class DbCon {
     public function getConnection() {
         $this->connection = null;
         try {
-            $this->connection = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->$dbName, $this->username, $this->password);
+            $this->connection = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbName, $this->username, $this->password);
             $this->connection->exec("set names utf8");
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $exception) {
