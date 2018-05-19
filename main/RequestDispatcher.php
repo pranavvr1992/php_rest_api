@@ -30,6 +30,7 @@ class RequestDispatcher {
         $dbCon = new DbCon();
         $this->dbCon = $dbCon->getConnection();
     }
+
 //Process Request to endpoint after validating request
     public function processRequest() {
         $reqController = new RequestController();
@@ -60,6 +61,37 @@ class RequestDispatcher {
             $this->throwError(ENDPOINT_PARAM_REQUIRED, "Endpoint param required");
         }
         $this->param = $data['params'];
+    }
+//Validate parameter and its type
+    public function validateParameter($fieldName, $value, $dataType, $required = true) {
+        if ($required == true && empty($value) == true) {
+            $this->throwError(VALIDATE_PARAMETER_REQUIRED, $fieldName . " Parameter is required");
+        }
+        switch ($dataType) {
+            case BOOLEAN:
+
+                if (!is_bool($value)) {
+                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Must be boolean");
+                }
+                break;
+            case INTEGER:
+
+                if (!is_numeric($value)) {
+                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Must be integer");
+                }
+                break;
+            case STRING:
+
+                if (!is_string($value)) {
+                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Must be string");
+                }
+                break;
+
+            default:
+                $this->throwError(VALIDATE_PARAMETER_DATATYPE, $fieldName . "Datatype is not valid");
+                break;
+        }
+        return $value;
     }
 
 //Throw Error Custom Method Custom

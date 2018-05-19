@@ -18,6 +18,8 @@ class RequestController extends RequestDispatcher {
     }
 
     public function generateToken() {
+        $email = $this->validateParameter('email', $this->param['email'], STRING);
+        $pass = $this->validateParameter('pass', $this->param['pass'], STRING);
         echo 'generate token';
     }
 
