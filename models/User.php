@@ -111,7 +111,6 @@ class User {
         $this->status = $status;
     }
 
-
 // CRUD Operations
 
 
@@ -129,6 +128,24 @@ class User {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function login() {
+        try {
+            $sql = "SELECT *  FROM " . $this->tableName . " WHERE email=:email and passwd=:password";
+            $stmt = $this->dbCon->prepare($sql);
+            $stmt->bindParam(":email", $this->email);
+            $stmt->bindParam(":password", $this->password);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (is_array($user)) {
+                return $user;
+            } else {
+                return false;
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
         }
     }
 

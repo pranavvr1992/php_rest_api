@@ -17,10 +17,26 @@ class RequestController extends RequestDispatcher {
         parent::__construct();
     }
 
-    public function generateToken() {
+    public function userLogin() {
         $email = $this->validateParameter('email', $this->param['email'], STRING);
-        $pass = $this->validateParameter('pass', $this->param['pass'], STRING);
-        echo 'generate token';
+        $password = $this->validateParameter('passwd', $this->param['passwd'], STRING);
+        $role = $this->validateParameter('role', $this->param['role'], STRING);
+        $user = new User();
+        $user->setEmail($email);
+        $user->setPassword($password);
+        $user->setRole($role);
+        $userDetails = $user->login();
+        if ($userDetails != false) {
+            $payload = array('isuueedAt' => time(),
+                'issuer' => 'localhost',
+                'exp' => time() + (15 * 60),
+                'userId' => $userDetails['id']);
+            $token = JWT::encode($payload, SECRETE_KEY);
+            $data = array('token' => $token);
+            $this->returnResponse(SUCCESS_RESPONSE, $data);
+        } else {
+            $this->returnResponse(SUCCESS_RESPONSE, "Failed to login, Invalid email or password");
+        }
     }
 
     public function createUser() {
@@ -31,8 +47,8 @@ class RequestController extends RequestDispatcher {
         try {
             $user = new User();
             $user->setName($name);
-            $user->setEmail($email);
             $user->setMobile($mobile);
+            $user->setEmail($email);
             $user->setPassword($password);
             $user->setCreatedOn(date('Y-m-d'));
             $user->setRole("user");
