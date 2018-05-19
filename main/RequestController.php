@@ -27,14 +27,16 @@ class RequestController extends RequestDispatcher {
         $name = $this->validateParameter('name', $this->param['name'], STRING, false);
         $email = $this->validateParameter('email', $this->param['email'], STRING, false);
         $mobile = $this->validateParameter('mobile', $this->param['mobile'], STRING, false);
+        $password = $this->validateParameter('passwd', $this->param['passwd'], STRING, false);
         try {
             $user = new User();
             $user->setName($name);
             $user->setEmail($email);
             $user->setMobile($mobile);
+            $user->setPassword($password);
             $user->setCreatedOn(date('Y-m-d'));
             $user->setRole("user");
-            $user->setRole("active");
+            $user->setStatus("active");
             if ($user->create()) {
                 $this->returnResponse(SUCCESS_RESPONSE, "User created");
             } else {

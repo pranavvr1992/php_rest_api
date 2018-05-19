@@ -22,8 +22,8 @@ class User {
     private $lastLoginOn;
     private $lastLoginIp;
     private $role;
-    private $stauts;
-    private $tableName = 'user';
+    private $status;
+    private $tableName = 'users';
     private $dbCon;
 
     public function __construct() {
@@ -67,8 +67,8 @@ class User {
         return $this->role;
     }
 
-    function getStauts() {
-        return $this->stauts;
+    function getStatus() {
+        return $this->status;
     }
 
     function setId($id) {
@@ -107,26 +107,24 @@ class User {
         $this->role = $role;
     }
 
-    function setStauts($stauts) {
-        $this->stauts = $stauts;
+    function setStatus($status) {
+        $this->status = $status;
     }
+
 
 // CRUD Operations
 
 
     public function create() {
-        $sql = "INSERT INTO " . $this->tableName . "(id,name,mobile,email,passwd,created_on,last_signin_on,last_signin_ip,role,status) VALUES(null,:name,:email,:mobile,:passwd,:createdOn,:lastLoginOn,:lastLoginIp,:role,:status)";
+        $sql = "INSERT INTO " . $this->tableName . " (name,mobile,email,passwd,created_on,last_login_on,last_login_ip,role,status) VALUES(:name,:mobile,:email,:password,:createdOn,null,null,:role,:status)";
         $stmt = $this->dbCon->prepare($sql);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":mobile", $this->mobile);
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":password", $this->password);
         $stmt->bindParam(":createdOn", $this->createdOn);
-        $stmt->bindParam(":lastLoginOn", $this->lastLoginOn);
-        $stmt->bindParam(":lastLoginIp", $this->lastLoginIp);
         $stmt->bindParam(":role", $this->role);
         $stmt->bindParam(":status", $this->status);
-
         if ($stmt->execute()) {
             return true;
         } else {

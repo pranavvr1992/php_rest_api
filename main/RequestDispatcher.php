@@ -84,12 +84,12 @@ class RequestDispatcher {
             case STRING:
 
                 if (!is_string($paramValue)) {
-                    $this->throwError(VALIDATE_PARAMETER_DATATYPE, $paramKey . " Must be string");
+                    $this->throwError(INVALID_PARAMETER_DATATYPE, $paramKey . " Must be string");
                 }
                 break;
 
             default:
-                $this->throwError(VALIDATE_PARAMETER_DATATYPE, $paramKey . " Datatype is not valid");
+                $this->throwError(INVALID_PARAMETER_DATATYPE, $paramKey . " Datatype is not valid");
                 break;
         }
         return $paramValue;
@@ -107,7 +107,7 @@ class RequestDispatcher {
     public function returnResponse($httpStatusCode, $message) {
         header("content-type:application/json");
         $successResp = json_encode(array('success' => array('code' => $httpStatusCode, 'message' => $message)));
-        echo successResp;
+        echo $successResp;
         exit;
     }
 
