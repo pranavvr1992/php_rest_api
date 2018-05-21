@@ -62,5 +62,19 @@ class RequestController extends RequestDispatcher {
             echo $e->getTraceAsString();
         }
     }
+    
+        public function deleteUser() {
+        $id= $this->validateParameter('id', $this->param['id'], INTEGER, false);
+        try {
+            $user = new User();
+            if ($user->delete($id)) {
+                $this->returnResponse(SUCCESS_RESPONSE, "User deleted");
+            } else {
+                $this->returnResponse(SUCCESS_RESPONSE, "Failed to delete user");
+            }
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
 
 }

@@ -131,6 +131,18 @@ class User {
         }
     }
 
+    public function delete($id) {
+        $sql = "DELETE FROM " . $this->tableName . " WHERE id=:id";
+        $stmt = $this->dbCon->prepare($sql);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        if ($stmt->rowcount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function login() {
         try {
             $sql = "SELECT *  FROM " . $this->tableName . " WHERE email=:email and passwd=:password";
