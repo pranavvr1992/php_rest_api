@@ -133,6 +133,22 @@ class User {
         return $users;
     }
 
+    public function update() {
+        $sql = "UPDATE $this->tableName SET ";
+        $sql .= "email=:email,mobile=:mobile WHERE id=:userId";
+        printf($sql);
+        $stmt = $this->dbCon->prepare($sql);
+        $stmt->bindParam(":userId", $this->id);
+        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":mobile", $this->mobile);
+        $stmt->execute();
+        if ($stmt->rowcount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function delete($id) {
         $sql = "DELETE FROM " . $this->tableName . " WHERE id=:id";
         $stmt = $this->dbCon->prepare($sql);

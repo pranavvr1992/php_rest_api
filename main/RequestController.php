@@ -67,6 +67,26 @@ class RequestController extends RequestDispatcher {
         }
     }
 
+    public function updateUser() {
+        $id = $this->validateParameter('id', $this->param['id'], INTEGER, true);
+        $email = $this->validateParameter('email', $this->param['email'], STRING, true);
+        $mobile = $this->validateParameter('mobile', $this->param['mobile'], STRING, true);
+
+        try {
+            $user = new User();
+            $user->setId($id);
+            $user->setMobile($mobile);
+            $user->setEmail($email);
+            if ($user->update()) {
+                $this->returnResponse(SUCCESS_RESPONSE, "User updated");
+            } else {
+                $this->returnResponse(SUCCESS_RESPONSE, "Failed to update user");
+            }
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
     public function deleteUser() {
         $id = $this->validateParameter('id', $this->param['id'], INTEGER, false);
         try {
