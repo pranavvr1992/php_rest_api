@@ -35,7 +35,7 @@ class RequestController extends RequestDispatcher {
             $data = array('token' => $token);
             $this->returnResponse(SUCCESS_RESPONSE, $data);
         } else {
-            $this->returnResponse(SUCCESS_RESPONSE, "Failed to login, Invalid email or password");
+            $this->returnResponse(SUCCESS_RESPONSE, "Failed to login, Invalid credentials");
         }
     }
 

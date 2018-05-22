@@ -118,14 +118,14 @@ class RequestDispatcher {
     public function validateToken() {
         $token = $this->getBearerToken();
         if ($token == null) {
-            $this->throwError(UNSUPPOERTED_CONTENT_TYPE, "Unauthorized Token Required");
+            $this->throwError(AUTHORIZATION_HEADER_NOT_FOUND, "Unauthorized, Token Required");
         } else {
             try {
                 $payload = JWT::decode($token, SECRETE_KEY, array('HS256'));
                 $userId = $payload->userId;
-                $this->returnResponse(SUCCESS_RESPONSE, $userId);
+//               Do database validations here
             } catch (Exception $e) {
-                $this->throwError(UNSUPPOERTED_CONTENT_TYPE, $e-> getMessage());
+                $this->throwError(UNAUTHORIZED, $e-> getMessage());
             }
         }
     }

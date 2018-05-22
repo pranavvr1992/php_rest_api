@@ -22,5 +22,5 @@ define('INVALID_USER_PASS', 108);
 //Http Status Codes:Success
 define('SUCCESS_RESPONSE', 200);
 define('AUTHORIZATION_HEADER_NOT_FOUND', 300);
-define('ACCESS_TOKEN_ERRORS', 301);
+define('UNAUTHORIZED', 401);
 
