@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of RestRequestDispatcher
  *
@@ -115,6 +109,7 @@ class RequestDispatcher {
         exit;
     }
 
+// Validate token, Expired or not,Malformed or not
     public function validateToken() {
         $token = $this->getBearerToken();
         if ($token == null) {
@@ -125,7 +120,7 @@ class RequestDispatcher {
                 $userId = $payload->userId;
 //               Do database validations here
             } catch (Exception $e) {
-                $this->throwError(UNAUTHORIZED, $e-> getMessage());
+                $this->throwError(UNAUTHORIZED, $e->getMessage());
             }
         }
     }

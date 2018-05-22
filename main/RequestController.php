@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of RequestController
  *
@@ -62,9 +56,19 @@ class RequestController extends RequestDispatcher {
             echo $e->getTraceAsString();
         }
     }
-    
-        public function deleteUser() {
-        $id= $this->validateParameter('id', $this->param['id'], INTEGER, false);
+
+    public function getUsers() {
+        try {
+            $user = new User();
+            $users = $user->read();
+            echo json_encode($users);
+        } catch (Exception $e) {
+            echo $e->getTraceAsString();
+        }
+    }
+
+    public function deleteUser() {
+        $id = $this->validateParameter('id', $this->param['id'], INTEGER, false);
         try {
             $user = new User();
             if ($user->delete($id)) {

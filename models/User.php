@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of User
  *
@@ -129,6 +123,14 @@ class User {
         } else {
             return false;
         }
+    }
+
+    public function read() {
+        $sql = "SELECT  * FROM " . $this->tableName;
+        $stmt = $this->dbCon->prepare($sql);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
     }
 
     public function delete($id) {
