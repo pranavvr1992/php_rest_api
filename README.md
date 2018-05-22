@@ -2,4 +2,4 @@
 
 * php (7.2)
 * PDO (mysql)
-* jwt
+* jwt https://github.com/firebase/php-jwt

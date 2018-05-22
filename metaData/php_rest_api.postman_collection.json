@@ -1,0 +1,185 @@
+{
+	"info": {
+		"name": "php_rest_api",
+		"_postman_id": "a2a08df5-a37e-4e75-894e-c66abce6ecbc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"endpoint\":\"createUser\",\n\t\"params\":{\n\t\t\"name\":\"sdsad\",\n\t\t\"mobile\":\"sadsa\",\n\t\t\"email\":\"ada\",\n\t\t\"passwd\":\"dasd\"\n\t\t\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost/php_rest_api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"php_rest_api",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"endpoint\":\"userLogin\",\n\t\"params\":{\n\t\t\"email\":\"ada\",\n\t\t\"passwd\":\"dasd\",\n\t\t\"role\":\"user\"\n\t\t\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost/php_rest_api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"php_rest_api",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3V1ZWVkQXQiOjE1MjY5MjU5ODQsImlzc3VlciI6ImxvY2FsaG9zdCIsImV4cCI6MTUyNjkyNjg4NCwidXNlcklkIjoiNyJ9.3S4xR47zlBo3eDwK55zUNfd5IFZ9lYEQAT86EF94uvE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"endpoint\":\"deleteUser\",\n\t\"params\":{\n\t\t\"id\":6\n\t\t\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost/php_rest_api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"php_rest_api",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Read Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3V1ZWVkQXQiOjE1MjcwMDI0NDUsImlzc3VlciI6ImxvY2FsaG9zdCIsImV4cCI6MTUyNzAwMzM0NSwidXNlcklkIjoiNyJ9.UNw4KYPhNQ8JnXgceLkp-Odctsqh3tiR2uab4K3FQnQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"endpoint\":\"getUsers\",\n\t\"params\":{\n\t\t\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost/php_rest_api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"php_rest_api",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3V1ZWVkQXQiOjE1MjcwMDgxODUsImlzc3VlciI6ImxvY2FsaG9zdCIsImV4cCI6MTUyNzAwOTA4NSwidXNlcklkIjoiNyJ9.4iH7AGCq_g1Y6LnbF-qhoEWKjjc6dVG7En7MmWsUSzg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"endpoint\":\"updateUser\",\n\t\"params\":{\n\t\t\"id\":7,\n\t\t\"email\":\"ada@email.com\",\n\t\t\"mobile\":\"545464\"\n\t\t\n\t}\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost/php_rest_api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"php_rest_api",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

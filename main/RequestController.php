@@ -39,12 +39,18 @@ class RequestController extends RequestDispatcher {
         $mobile = $this->validateParameter('mobile', $this->param['mobile'], STRING, false);
         $password = $this->validateParameter('passwd', $this->param['passwd'], STRING, false);
         try {
+//Password Hash, Using salt
+            $options = [
+                'cost' => 11,
+                'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+            ];
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT, $options);
             $user = new User();
             $user->setName($name);
             $user->setMobile($mobile);
             $user->setEmail($email);
-            $user->setPassword($password);
-            $user->setCreatedOn(date('Y-m-d'));
+            $user->setPassword($hashed_password);
+            $user->setCreatedAt(date('Y-m-d'));
             $user->setRole("user");
             $user->setStatus("active");
             if ($user->create()) {

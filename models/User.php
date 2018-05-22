@@ -12,8 +12,9 @@ class User {
     private $email;
     private $mobile;
     private $password;
-    private $createdOn;
-    private $lastLoginOn;
+    private $createdAt;
+    private $updatedAt;
+    private $lastLoginAt;
     private $lastLoginIp;
     private $role;
     private $status;
@@ -45,12 +46,16 @@ class User {
         return $this->password;
     }
 
-    function getCreatedOn() {
-        return $this->createdOn;
+    function getCreatedAt() {
+        return $this->createdAt;
     }
 
-    function getLastLoginOn() {
-        return $this->lastLoginOn;
+    function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
+    function getLastLoginAt() {
+        return $this->lastLoginAt;
     }
 
     function getLastLoginIp() {
@@ -85,12 +90,16 @@ class User {
         $this->password = $password;
     }
 
-    function setCreatedOn($createdOn) {
-        $this->createdOn = $createdOn;
+    function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
     }
 
-    function setLastLoginOn($lastLoginOn) {
-        $this->lastLoginOn = $lastLoginOn;
+    function setUpdatedAt($updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
+
+    function setLastLoginAt($lastLoginAt) {
+        $this->lastLoginAt = $lastLoginAt;
     }
 
     function setLastLoginIp($lastLoginIp) {
@@ -109,24 +118,28 @@ class User {
 
 
     public function create() {
-        $sql = "INSERT INTO " . $this->tableName . " (name,mobile,email,passwd,created_on,last_login_on,last_login_ip,role,status) VALUES(:name,:mobile,:email,:password,:createdOn,null,null,:role,:status)";
+        $sql = "INSERT INTO " . $this->tableName . " (name,mobile,email,password_hash,created_at,updated_at,last_login_at,last_login_ip,role,status) VALUES(:name,:mobile,:email,:password,:createdAt,null,null,null,:role,:status)";
         $stmt = $this->dbCon->prepare($sql);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":mobile", $this->mobile);
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":createdOn", $this->createdOn);
+        $stmt->bindParam(":createdAt", $this->createdAt);
         $stmt->bindParam(":role", $this->role);
         $stmt->bindParam(":status", $this->status);
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+        try {
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            $e->getTraceAsString();
         }
     }
 
     public function read() {
-        $sql = "SELECT  * FROM " . $this->tableName;
+        $sql = "SELECT  name,mobile,email,created_at,updated_at,last_login_at,last_login_ip FROM " . $this->tableName;
         $stmt = $this->dbCon->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -163,14 +176,16 @@ class User {
 
     public function login() {
         try {
-            $sql = "SELECT *  FROM " . $this->tableName . " WHERE email=:email and passwd=:password";
+            $sql = "SELECT *  FROM " . $this->tableName . " WHERE email=:email";
             $stmt = $this->dbCon->prepare($sql);
             $stmt->bindParam(":email", $this->email);
-            $stmt->bindParam(":password", $this->password);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if (is_array($user)) {
-                return $user;
+                $hashed_password = $user["password_hash"];
+                if (password_verify($this->password, $hashed_password)) {
+                    return $user;
+                }
             } else {
                 return false;
             }
