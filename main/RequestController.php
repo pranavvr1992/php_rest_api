@@ -5,9 +5,17 @@
  *
  * @author pvr-admin
  */
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class RequestController extends RequestDispatcher {
 
+// create a log channel
+    private $log;
+
     public function __construct() {
+        $this->log = new Logger('RequestController');
+        $this->log->pushHandler(new StreamHandler('logs/php_rest_api.log', Logger::WARNING));
         parent::__construct();
     }
 
@@ -27,8 +35,10 @@ class RequestController extends RequestDispatcher {
                 'userId' => $userDetails['id']);
             $token = JWT::encode($payload, SECRETE_KEY);
             $data = array('token' => $token);
+            $this->log->info('Login Success');
             $this->returnResponse(SUCCESS_RESPONSE, $data);
         } else {
+            $this->log->warning('Failed to login, Invalid credentials');
             $this->returnResponse(SUCCESS_RESPONSE, "Failed to login, Invalid credentials");
         }
     }
@@ -50,7 +60,7 @@ class RequestController extends RequestDispatcher {
             $user->setMobile($mobile);
             $user->setEmail($email);
             $user->setPassword($hashed_password);
-            $user->setCreatedAt(date('Y-m-d'));
+            $user->setCreatedAt(date('Y-m-d H:i:s'));
             $user->setRole("user");
             $user->setStatus("active");
             if ($user->create()) {
@@ -59,6 +69,7 @@ class RequestController extends RequestDispatcher {
                 $this->returnResponse(SUCCESS_RESPONSE, "Failed to create user");
             }
         } catch (Exception $e) {
+            $log->error($e);
             echo $e->getTraceAsString();
         }
     }

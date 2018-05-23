@@ -148,12 +148,13 @@ class User {
 
     public function update() {
         $sql = "UPDATE $this->tableName SET ";
-        $sql .= "email=:email,mobile=:mobile WHERE id=:userId";
+        $sql .= "email=:email,mobile=:mobile,updated_at=:updatedAt WHERE id=:userId";
         printf($sql);
         $stmt = $this->dbCon->prepare($sql);
         $stmt->bindParam(":userId", $this->id);
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":mobile", $this->mobile);
+        $stmt->bindParam(":updatedAt", date('Y-m-d H:i:s'));
         $stmt->execute();
         if ($stmt->rowcount() > 0) {
             return true;
@@ -184,6 +185,9 @@ class User {
             if (is_array($user)) {
                 $hashed_password = $user["password_hash"];
                 if (password_verify($this->password, $hashed_password)) {
+                    $ipFinder = new IpFinder();
+                    $ipAddr = $ipFinder->getClientIp();
+                    $this->updateOnLogin($user["id"], $ipAddr);
                     return $user;
                 }
             } else {
@@ -191,6 +195,21 @@ class User {
             }
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
+        }
+    }
+
+    public function updateOnLogin($userId, $lastLoginIp) {
+        $sql = "UPDATE $this->tableName SET ";
+        $sql .= "last_login_at=:lastLoginAt,last_login_ip=:lastLoginIp WHERE id=:userId";
+        $stmt = $this->dbCon->prepare($sql);
+        $stmt->bindParam(":userId", $userId);
+        $stmt->bindParam(":lastLoginAt", date('Y-m-d H:i:s'));
+        $stmt->bindParam(":lastLoginIp", $lastLoginIp);
+        $stmt->execute();
+        if ($stmt->rowcount() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -34,9 +34,9 @@ CREATE TABLE `users` (
   `mobile` varchar(10) DEFAULT NULL,
   `email` varchar(90) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
-  `created_at` date DEFAULT NULL,
-  `updated_at` date DEFAULT NULL,
-  `last_login_at` date DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `last_login_at` datetime DEFAULT NULL,
   `last_login_ip` varchar(45) DEFAULT NULL,
   `role` varchar(10) NOT NULL,
   `status` varchar(10) NOT NULL
