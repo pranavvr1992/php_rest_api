@@ -7,17 +7,18 @@
  */
 class DbCon {
 
-    private $host = "localhost";
-    private $dbName = "php_rest_api";
-    private $username = "root";
-    private $password = "";
     public $connection;
 
     // get the database connection
     public function getConnection() {
+        $appProperties = parse_ini_file(parse_ini_file("application.ini")["propFile"]);
+        $host = $appProperties["db_host"];
+        $dbName = $appProperties["db_name"];
+        $username = $appProperties["db_user"];
+        $password = $appProperties["db_password"];
         $this->connection = null;
         try {
-            $this->connection = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbName, $this->username, $this->password);
+            $this->connection = new PDO("mysql:host=" . $host . ";dbname=" . $dbName, $username, $password);
             $this->connection->exec("set names utf8");
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $exception) {

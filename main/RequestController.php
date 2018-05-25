@@ -16,7 +16,8 @@ class RequestController extends RequestDispatcher {
 
     public function __construct() {
         $this->log = new Logger('RequestController');
-        $this->log->pushHandler(new StreamHandler('logs/php_rest_api.log', Logger::WARNING));
+        $appProperties = parse_ini_file(parse_ini_file("application.ini")["propFile"]);
+        $this->log->pushHandler(new StreamHandler($appProperties["log_file_path"], Logger::WARNING));
         parent::__construct();
     }
 

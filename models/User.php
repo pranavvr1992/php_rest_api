@@ -177,9 +177,10 @@ class User {
 
     public function login() {
         try {
-            $sql = "SELECT *  FROM " . $this->tableName . " WHERE email=:email";
+            $sql = "SELECT *  FROM " . $this->tableName . " WHERE email=:email and role=:role";
             $stmt = $this->dbCon->prepare($sql);
             $stmt->bindParam(":email", $this->email);
+            $stmt->bindParam(":role", $this->role);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if (is_array($user)) {
