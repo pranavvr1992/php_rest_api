@@ -5,6 +5,8 @@
  *
  * @author pvr-admin
  */
+use Firebase\JWT\JWT;
+
 class RequestDispatcher {
 
     protected $request;

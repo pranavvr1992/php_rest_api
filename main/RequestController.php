@@ -7,6 +7,7 @@
  */
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Firebase\JWT\JWT;
 
 class RequestController extends RequestDispatcher {
 
