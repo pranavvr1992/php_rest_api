@@ -51,6 +51,9 @@ class RequestDispatcher {
             $this->throwError(UNSUPPOERTED_CONTENT_TYPE, "Unsuppoerted content type");
         }
         $data = json_decode($this->request, true);
+        if ($data == null) {
+            $this->throwError(API_ENDPOINT_REQUIRED, "Invalid json format");
+        }
 //        checks endpoint 
         if (!isset($data['endpoint']) || $data['endpoint'] == "") {
             $this->throwError(API_ENDPOINT_REQUIRED, "Api endpoint required");
