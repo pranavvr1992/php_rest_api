@@ -26,9 +26,6 @@ class RequestDispatcher {
         $this->validateRequest();
         $dbCon = new DbCon();
         $this->dbCon = $dbCon->getConnection();
-        if (!in_array($this->endPoint, $this->AUTH_FREE_ENDPOINTS)) {
-            $this->validateToken();
-        }
     }
 
 //Process Request to endpoint after validating request
@@ -41,6 +38,9 @@ class RequestDispatcher {
             }
         } catch (Exception $exc) {
             $this->throwError(ENDPOINT_NOT_EXIST, "Endpoint doesnot exists");
+        }
+        if (!in_array($this->endPoint, $this->AUTH_FREE_ENDPOINTS)) {
+            $this->validateToken();
         }
         $reflectionMethod->invoke($reqController);
     }
